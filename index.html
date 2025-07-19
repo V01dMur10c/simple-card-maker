@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简单卡牌</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <script src="node_modules/fabric/dist/index.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 工具栏 -->
+        <div id="toolbar">
+            <div class="toolbar-group">
+                <button id="btn-new" class="toolbar-btn" title="新建项目">
+                    <span>新建</span>
+                </button>
+                <button id="btn-open" class="toolbar-btn" title="打开项目">
+                    <span>打开</span>
+                </button>
+                <button id="btn-save" class="toolbar-btn" title="保存项目">
+                    <span>保存</span>
+                </button>
+            </div>
+            
+            <div class="toolbar-group">
+                <button id="btn-import-data" class="toolbar-btn" title="导入数据">
+                    <span>导入数据</span>
+                </button>
+                <button id="btn-export" class="toolbar-btn" title="导出图片">
+                    <span>导出</span>
+                </button>
+            </div>
+            
+            <div class="toolbar-group">
+                <button id="btn-add-text" class="toolbar-btn" title="添加文字">
+                    <span>文字</span>
+                </button>
+                <button id="btn-add-variable-text" class="toolbar-btn" title="添加变量文字">
+                    <span>变量文字</span>
+                </button>
+                <button id="btn-add-image" class="toolbar-btn" title="添加图片">
+                    <span>图片</span>
+                </button>
+                <button id="btn-add-variable-image" class="toolbar-btn" title="添加变量图片">
+                    <span>变量图片</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 主内容区域 -->
+        <div id="main-content">
+            <!-- 左侧工具面板 -->
+            <div id="left-panel">
+                <div class="panel-section">
+                    <h3>卡牌设置</h3>
+                    <div class="form-group">
+                        <label>预设尺寸:</label>
+                        <select id="card-preset">
+                            <option value="poker">标准扑克牌 (63×88mm)</option>
+                            <option value="bridge">桥牌 (57×89mm)</option>
+                            <option value="tarot">塔罗牌 (70×120mm)</option>
+                            <option value="custom">自定义</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>宽度 (px):</label>
+                        <input type="number" id="card-width" value="252" min="50">
+                    </div>
+                    <div class="form-group">
+                        <label>高度 (px):</label>
+                        <input type="number" id="card-height" value="352" min="50">
+                    </div>
+                    <button id="btn-apply-size" class="btn-primary">应用尺寸</button>
+                </div>
+
+                <div class="panel-section">
+                    <h3>图层</h3>
+                    <div id="layers-list">
+                        <!-- 图层列表将在这里动态生成 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 中央画布区域 -->
+            <div id="canvas-container">
+                <div id="canvas-wrapper">
+                    <canvas id="card-canvas"></canvas>
+                </div>
+            </div>
+
+            <!-- 右侧属性面板 -->
+            <div id="right-panel">
+                <div class="panel-section">
+                    <h3>属性</h3>
+                    <div id="properties-panel">
+                        <div id="no-selection">
+                            <p>请选择一个对象来编辑属性</p>
+                        </div>
+                        
+                        <!-- 通用属性 -->
+                        <div id="common-properties" style="display: none;">
+                            <div class="form-group">
+                                <label>X坐标:</label>
+                                <input type="number" id="prop-x" step="0.1">
+                            </div>
+                            <div class="form-group">
+                                <label>Y坐标:</label>
+                                <input type="number" id="prop-y" step="0.1">
+                            </div>
+                            <div class="form-group">
+                                <label>宽度:</label>
+                                <input type="number" id="prop-width" step="0.1" min="1">
+                            </div>
+                            <div class="form-group">
+                                <label>高度:</label>
+                                <input type="number" id="prop-height" step="0.1" min="1">
+                            </div>
+                            <div class="form-group">
+                                <label>旋转角度:</label>
+                                <input type="number" id="prop-angle" step="1" min="-360" max="360">
+                            </div>
+                        </div>
+
+                        <!-- 文字属性 -->
+                        <div id="text-properties" style="display: none;">
+                            <div class="form-group">
+                                <label>文字内容:</label>
+                                <textarea id="prop-text-content" rows="3"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>字体:</label>
+                                <select id="prop-font-family">
+                                    <!-- 字体选项将动态加载 -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>字号:</label>
+                                <input type="number" id="prop-font-size" min="8" max="200" value="16">
+                            </div>
+                            <div class="form-group">
+                                <label>颜色:</label>
+                                <input type="color" id="prop-text-color" value="#000000">
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="prop-font-bold"> 加粗
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="prop-font-italic"> 斜体
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- 变量文字属性 -->
+                        <div id="variable-text-properties" style="display: none;">
+                            <div class="form-group">
+                                <label>变量名:</label>
+                                <input type="text" id="prop-variable-name" placeholder="例如: name, title">
+                            </div>
+                            <div class="form-group">
+                                <label>默认文字:</label>
+                                <input type="text" id="prop-default-text" placeholder="默认显示的文字">
+                            </div>
+                        </div>
+
+                        <!-- 图片属性 -->
+                        <div id="image-properties" style="display: none;">
+                            <div class="form-group">
+                                <label>图片文件:</label>
+                                <input type="file" id="prop-image-file" accept="image/*">
+                            </div>
+                            <div class="form-group">
+                                <button id="btn-fit-image" class="btn-secondary">适应大小</button>
+                            </div>
+                        </div>
+
+                        <!-- 变量图片属性 -->
+                        <div id="variable-image-properties" style="display: none;">
+                            <div class="form-group">
+                                <label>变量名:</label>
+                                <input type="text" id="prop-image-variable-name" placeholder="例如: avatar, icon">
+                            </div>
+                            <div class="form-group">
+                                <label>默认图片:</label>
+                                <input type="file" id="prop-default-image" accept="image/*">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 状态栏 -->
+        <div id="status-bar">
+            <span id="status-text">就绪</span>
+            <span id="zoom-level">100%</span>
+        </div>
+    </div>
+
+    <!-- 导出对话框 -->
+    <div id="export-dialog" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>导出设置</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>导出格式:</label>
+                    <select id="export-format">
+                        <option value="single">单张PNG</option>
+                        <option value="batch">批量PNG (ZIP)</option>
+                        <option value="layout">排版拼接</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>分辨率:</label>
+                    <select id="export-resolution">
+                        <option value="1">标准 (1x)</option>
+                        <option value="2">高清 (2x)</option>
+                        <option value="3">超高清 (3x)</option>
+                        <option value="4">印刷级 (4x)</option>
+                    </select>
+                </div>
+                <div id="layout-options" style="display: none;">
+                    <div class="form-group">
+                        <label>每行卡牌数:</label>
+                        <input type="number" id="layout-cols" value="3" min="1" max="10">
+                    </div>
+                    <div class="form-group">
+                        <label>每列卡牌数:</label>
+                        <input type="number" id="layout-rows" value="3" min="1" max="10">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-export-confirm" class="btn-primary">导出</button>
+                <button id="btn-export-cancel" class="btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/app.js"></script>
+</body>
+</html>
+

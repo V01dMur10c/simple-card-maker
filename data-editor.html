@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据编辑器</title>
+    <link rel="stylesheet" href="styles/data-editor.css">
+</head>
+<body>
+    <div id="data-editor-app">
+        <div class="header">
+            <h2>卡牌数据编辑器</h2>
+            <div class="header-actions">
+                <button id="btn-add-card" class="btn-primary">添加卡牌</button>
+                <button id="btn-save-data" class="btn-primary">保存</button>
+                <button id="btn-cancel" class="btn-secondary">取消</button>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="sidebar">
+                <h3>卡牌列表</h3>
+                <div id="cards-list">
+                    <!-- 卡牌列表将在这里动态生成 -->
+                </div>
+            </div>
+
+            <div class="main-editor">
+                <div id="no-card-selected">
+                    <p>请选择一张卡牌来编辑数据</p>
+                </div>
+
+                <div id="card-editor" style="display: none;">
+                    <div class="editor-header">
+                        <h3 id="current-card-title">卡牌 #1</h3>
+                        <button id="btn-delete-card" class="btn-danger">删除卡牌</button>
+                    </div>
+
+                    <div class="editor-content">
+                        <div id="fields-container">
+                            <!-- 字段编辑器将在这里动态生成 -->
+                        </div>
+                        <button id="btn-add-field" class="btn-secondary">添加字段</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="data-preview">
+                <h4>JSON预览</h4>
+                <textarea id="json-preview" readonly></textarea>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/data-editor.js"></script>
+</body>
+</html>
+

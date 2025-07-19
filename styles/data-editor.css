@@ -1,0 +1,343 @@
+/* 数据编辑器样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 14px;
+    color: #333;
+    background: #f5f5f5;
+    overflow: hidden;
+}
+
+#data-editor-app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* 头部 */
+.header {
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.header h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #495057;
+}
+
+.header-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* 内容区域 */
+.content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* 侧边栏 */
+.sidebar {
+    width: 250px;
+    background: #fff;
+    border-right: 1px solid #ddd;
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+.sidebar h3 {
+    padding: 16px 20px 12px;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #495057;
+    border-bottom: 1px solid #eee;
+}
+
+#cards-list {
+    padding: 8px;
+}
+
+.card-item {
+    padding: 12px 16px;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    margin-bottom: 4px;
+    cursor: pointer;
+    background: #f8f9fa;
+    transition: all 0.2s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-item:hover {
+    background: #e9ecef;
+}
+
+.card-item.selected {
+    background: #007bff;
+    color: #fff;
+    border-color: #0056b3;
+}
+
+.card-item-name {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.card-item-index {
+    font-size: 11px;
+    opacity: 0.7;
+    background: rgba(0, 0, 0, 0.1);
+    padding: 2px 6px;
+    border-radius: 2px;
+}
+
+/* 主编辑器 */
+.main-editor {
+    flex: 1;
+    background: #fff;
+    overflow-y: auto;
+}
+
+#no-card-selected {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #6c757d;
+    font-style: italic;
+}
+
+#card-editor {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.editor-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.editor-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #495057;
+}
+
+.editor-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+#fields-container {
+    margin-bottom: 20px;
+}
+
+.field-editor {
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    background: #f8f9fa;
+}
+
+.field-header {
+    padding: 12px 16px;
+    background: #e9ecef;
+    border-bottom: 1px solid #dee2e6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.field-name {
+    font-weight: 500;
+    font-size: 13px;
+}
+
+.field-actions {
+    display: flex;
+    gap: 4px;
+}
+
+.field-btn {
+    background: none;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 11px;
+    transition: all 0.2s;
+}
+
+.field-btn:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.field-btn.delete {
+    color: #dc3545;
+}
+
+.field-btn.delete:hover {
+    background: #dc3545;
+    color: #fff;
+}
+
+.field-content {
+    padding: 16px;
+}
+
+.field-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    align-items: center;
+}
+
+.field-row label {
+    min-width: 80px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #6c757d;
+}
+
+.field-row input,
+.field-row select,
+.field-row textarea {
+    flex: 1;
+    padding: 6px 8px;
+    border: 1px solid #ced4da;
+    border-radius: 3px;
+    font-size: 13px;
+    background: #fff;
+}
+
+.field-row input:focus,
+.field-row select:focus,
+.field-row textarea:focus {
+    outline: none;
+    border-color: #80bdff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.field-row textarea {
+    min-height: 60px;
+    resize: vertical;
+}
+
+/* 底部 */
+.footer {
+    background: #fff;
+    border-top: 1px solid #ddd;
+    padding: 16px 20px;
+    flex-shrink: 0;
+}
+
+.data-preview h4 {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #495057;
+}
+
+#json-preview {
+    width: 100%;
+    height: 120px;
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    background: #f8f9fa;
+    resize: vertical;
+}
+
+/* 按钮样式 */
+.btn-primary {
+    background: #007bff;
+    color: #fff;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+
+.btn-primary:hover {
+    background: #0056b3;
+    border-color: #0056b3;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: #fff;
+    border: 1px solid #6c757d;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+    background: #545b62;
+    border-color: #545b62;
+}
+
+.btn-danger {
+    background: #dc3545;
+    color: #fff;
+    border: 1px solid #dc3545;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+
+.btn-danger:hover {
+    background: #c82333;
+    border-color: #c82333;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
